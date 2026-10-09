@@ -2,17 +2,14 @@
 
 A paper-trading terminal that trains your trading psychology. Start with $100,000 of virtual money. No backend, no sign-up — everything is saved in the browser.
 
-## Run locally
+## Demo login
 
-1. npm install
-2. npm run dev
-3. Open http://localhost:5173
+The login page opens with the details already filled in — just press **Sign in**.
 
-## Deploy on Vercel
+- Email: `trader@mindtrade.ai`
+- Password: `demo1234`
 
-1. Push this folder to a GitHub repo
-2. Vercel → Add New Project → import the repo
-3. Framework is detected as Vite → Deploy
+Use the log-out button (top right) to return to the login page.
 
 ## How trades work (like MT5 / cTrader)
 
@@ -49,3 +46,62 @@ A paper-trading terminal that trains your trading psychology. Start with $100,00
 3. src/engine/emotionEngine.ts — psychology scoring and coaching
 4. src/context/TradingContext.tsx — connects the engines to React
 5. src/components — UI
+
+## Tech stack
+
+- React 19 + TypeScript + Vite
+- Tailwind CSS v4
+- Custom market simulator and broker engine (no external APIs)
+
+## Run locally
+
+Requires Node.js 18 or newer.
+
+```bash
+npm install
+npm run dev
+```
+
+Open http://localhost:5173
+
+To check the production build:
+
+```bash
+npm run build
+npm run preview
+```
+
+## Push to GitHub
+
+1. Create an empty repository on GitHub named `mindtrade-ai` (no README, no .gitignore)
+2. Open a terminal in this folder and run:
+
+```bash
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/<your-username>/mindtrade-ai.git
+git push -u origin main
+```
+
+3. For later changes:
+
+```bash
+git add .
+git commit -m "Describe your change"
+git push
+```
+
+## Deploy on Vercel
+
+1. Go to https://vercel.com → **Add New → Project**
+2. Import the GitHub repository
+3. Framework preset: **Vite** (detected automatically) — build command `npm run build`, output folder `dist`
+4. Click **Deploy** — no environment variables are needed
+
+Every `git push` to `main` redeploys the site automatically.
+
+## Data storage
+
+Everything is saved in the visitor's own browser (localStorage), so each device has its own data. No backend, no database and no sign-up service are needed. Prices are simulated — no real money and no real market data.

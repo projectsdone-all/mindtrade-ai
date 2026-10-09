@@ -5,7 +5,8 @@ import { simulator } from './engine/simulator';
 import { fmtPrice, fmtUsd } from './lib/format';
 import AnalyticsPanel from './components/Analytics/AnalyticsPanel';
 import SettingsModal from './components/Settings/SettingsModal';
-import { Settings as Gear } from 'lucide-react';
+import { Settings as Gear, LogOut } from 'lucide-react';
+import Login, { getSession, clearSession } from './components/Login';
 
 // Views
 import WatchList from './components/Terminal/WatchList';
@@ -194,7 +195,7 @@ function AIHubView() {
   );
 }
 
-function AppContent() {
+function AppContent({ onLogout }: { onLogout: () => void }) {
   const [activeTab, setActiveTab] = useState(() => localStorage.getItem('mindtrade_tab') || 'terminal');
   const [showSettings, setShowSettings] = useState(false);
   const [welcome, setWelcome] = useState(() => !localStorage.getItem('mindtrade_welcomed'));
@@ -265,6 +266,7 @@ function AppContent() {
               <span className="font-mono" style={{ fontSize: 12, fontWeight: 700, color: equity >= startingBalance ? 'var(--green)' : 'var(--red)' }}>{fmtUsd(equity)}</span>
             </div>
             <button className="icon-act" style={{ padding: 6 }} onClick={() => setShowSettings(true)} title="Settings & trading rules"><Gear size={15} /></button>
+            <button className="icon-act" style={{ padding: 6 }} onClick={onLogout} title="Log out" aria-label="Log out"><LogOut size={15} /></button>
           </div>
         </div>
       </div>
@@ -282,9 +284,11 @@ function AppContent() {
 }
 
 export default function App() {
+  const [user, setUser] = useState<string | null>(() => getSession());
+  if (!user) return <Login onLogin={setUser} />;
   return (
     <TradingProvider>
-      <AppContent />
+      <AppContent onLogout={() => { clearSession(); setUser(null); }} />
     </TradingProvider>
   );
 }
